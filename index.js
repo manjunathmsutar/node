@@ -8,7 +8,7 @@ app.use(express.json())
 app.use(cors())
 
 const connectdb = async ()=>{
-    await mongoose.connect(process.env.MONGO_URI,{dbName:"user"});
+    await mongoose.connect(process.env.MONGO_URI);
     console.log("dbconnected")
 }
 
