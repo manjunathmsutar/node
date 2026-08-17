@@ -8,16 +8,20 @@ app.use(express.json())
 app.use(cors())
 
 const connectdb = async ()=>{
-    await mongoose.connect(process.env.MONGO_URI);
+    await mongoose.connect(process.env.MONGO_URI,{dbName:"student"});
     console.log("dbconnected")
 }
 
-const userShema = new mongoose.Schema({
+const studentSchema = new mongoose.Schema({
     name:String,
-    age:String
+    email:String,
+    password:String,
+    gender:String,
+    age:String,
+    phone:String
 })
 
-const user =  mongoose.model ("user",userShema)
+const student =  mongoose.model ("student",studentSchema)
 
 
 app.get("/", (req, res) => {
@@ -25,22 +29,22 @@ app.get("/", (req, res) => {
 });
 
 app.post("/post", async (req,res)=>{
-const postdata = await user.create(req.body)
+const postdata = await student.create(req.body)
 res.json(postdata)
 })
 
 app.get("/get", async (req,res)=>{
-const getdata = await user.find({})
+const getdata = await student.find({})
 res.json(getdata)
 })
 
 app.put("/:id", async (req,res)=>{
-const putdata = await user.findByIdAndUpdate(req.params.id,req.body, {new:true})
+const putdata = await student.findByIdAndUpdate(req.params.id,req.body, {new:true})
 res.json(putdata)
 })
 
 app.delete("/:id", async (req,res)=>{
-    const deletedata = await user.findByIdAndDelete(req.params.id)
+    const deletedata = await student.findByIdAndDelete(req.params.id)
 })
 
 connectdb()
